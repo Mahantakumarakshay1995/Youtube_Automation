@@ -24,7 +24,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
     implementation 'org.seleniumhq.selenium:selenium-java:4.21.0'
     implementation 'org.apache.poi:poi-ooxml:4.1.2'
-
+    // Source: https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+implementation("io.github.bonigarcia:webdrivermanager:6.3.3")
+    
 }
 
 buildDir = 'build'
