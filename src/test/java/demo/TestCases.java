@@ -42,7 +42,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
          * Do not change the provided methods unless necessary, they will help in
          * automation and assessment
          */
-        @Test(enabled = true)
+        //@Test(enabled = true)
         public void testCase01() throws InterruptedException{
                System.out.println("Start TC 01"); 
                driver.get("https://www.youtube.com/");
@@ -63,7 +63,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
               System.out.println("End Of TC 01");
 
         }
-         @Test(enabled = true)
+         //@Test(enabled = true)
         public void testCase02() throws InterruptedException{
                System.out.println("Start TC 02"); 
                driver.get("https://www.youtube.com/");
@@ -78,7 +78,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
              Wrappers.scrollAndClick(moviesElement, driver);
              Thread.sleep(2000);
 
-             WebElement rightarrowElement=driver.findElement(By.xpath("//div[@id='right-arrow']//yt-button-shape"));
+             WebElement rightarrowElement=driver.findElement(By.xpath("//span[text()='Top selling']//ancestor::ytd-shelf-renderer //yt-button-shape//button[@aria-label='Next']"));
              Wrappers.scrollAndClick(rightarrowElement, driver);
              Wrappers.Onlyclick(rightarrowElement);
              Wrappers.Onlyclick(rightarrowElement);
@@ -86,7 +86,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
 
              SoftAssert sa=new SoftAssert();
 
-             WebElement dramaElement =driver.findElement(By.xpath("((//ytd-grid-movie-renderer[@class='style-scope yt-horizontal-list-renderer'])[16]//descendant::span[@class='grid-movie-renderer-metadata style-scope ytd-grid-movie-renderer'])"));
+             WebElement dramaElement =driver.findElement(By.xpath("((//ytd-grid-movie-renderer[@class='style-scope yt-horizontal-list-renderer'])[last()]//descendant::span[@class='grid-movie-renderer-metadata style-scope ytd-grid-movie-renderer'])"));
              Wrappers.waitTillElementClickable(dramaElement, driver);
              String textActual=dramaElement.getText().replaceAll("[^A-Za-z]", "");//only take word Drama
              
@@ -120,7 +120,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
 
         }
 
-         @Test(enabled = true)
+         //@Test(enabled = true)
         public void testCase03() throws InterruptedException{
                System.out.println("Start TC 03"); 
                driver.get("https://www.youtube.com/");
@@ -149,7 +149,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
               System.out.println("End Of TC 03");
 
         }
-         @Test(enabled = true)
+         //@Test(enabled = true)
         public void testCase04() throws InterruptedException{
                System.out.println("Start TC 04"); 
                driver.get("https://www.youtube.com/");
@@ -175,6 +175,44 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
 
               System.out.println("End Of TC 04");
               
+        }
+
+         @Test(enabled = true)
+        public void testCase05() throws InterruptedException{
+               System.out.println("Start TC 05"); 
+               driver.get("https://www.youtube.com/");
+                Boolean result=Wrappers.isValidatedUrl(driver);
+                Assert.assertTrue(result);
+
+               WebElement option=driver.findElement(By.xpath("(//yt-icon-button[@id='guide-button'])[1]//button"));
+              Wrappers.scrollAndClick(option,driver);
+               Thread.sleep(2000);   
+               
+             WebElement moviesElement= driver.findElement(By.xpath("(//div[@id='items'])[2]//yt-formatted-string[contains(text(),'Movies')]"));
+             Wrappers.scrollAndClick(moviesElement, driver);
+             Thread.sleep(2000);
+
+             WebElement rightarrowElement=driver.findElement(By.xpath("//span[text()='Top selling']//ancestor::ytd-shelf-renderer //yt-button-shape//button[@aria-label='Next']"));
+             Wrappers.scrollAndClick(rightarrowElement, driver);
+             Wrappers.Onlyclick(rightarrowElement);
+             Wrappers.Onlyclick(rightarrowElement);
+             Thread.sleep(4000);
+
+             By movieList=By.xpath("//span[contains(text(),'Top selling')]//ancestor::div[@id='dismissible']//descendant::ytd-grid-movie-renderer");
+             List<String> movieDetails=Wrappers.getMovieDetailsList(driver, movieList);
+             System.out.println(movieDetails);
+             String movieCategoryName = movieDetails.get(0);
+
+             SoftAssert sa=new SoftAssert();
+             sa.assertTrue(movieCategoryName.equals("Action")||movieCategoryName.equals("Actionadventure")||movieCategoryName.equals("Drama"));
+
+             String movieBadge=movieDetails.get(1);
+             sa.assertTrue(movieBadge.equals("A")||movieBadge.equals("U")||movieBadge.equals("U/A"));
+             sa.assertAll();
+
+
+              System.out.println("End Of TC 05");
+
         }
         
 

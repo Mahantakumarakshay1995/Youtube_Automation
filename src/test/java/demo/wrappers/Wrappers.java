@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -90,5 +92,21 @@ public class Wrappers {
              }
              System.out.println("Sum is :="+sum); 
              return sum;
+    }
+
+    public static List<String> getMovieDetailsList(WebDriver driver , By locator){
+        List<String> result=new ArrayList<>();
+        List<WebElement> movieParentName=driver.findElements(locator);
+        String movieCategory = movieParentName.get(movieParentName.size()-1).findElement(By.xpath(".//span[@class='grid-movie-renderer-metadata style-scope ytd-grid-movie-renderer']")).getText();
+        System.out.println(movieCategory);
+        movieCategory=movieCategory.replaceAll("[^A-Za-z]","");
+        System.out.println(movieCategory);
+
+        String movieBadge=movieParentName.get(movieParentName.size()-1).findElement(By.xpath(".//badge-shape[@class='yt-badge-shape yt-badge-shape--default yt-badge-shape--typography']")).getText();
+        System.out.println(movieBadge);
+
+        return Arrays.asList(movieCategory,movieBadge);
+
+
     }
 }
