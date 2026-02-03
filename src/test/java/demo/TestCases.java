@@ -20,6 +20,7 @@ import java.beans.Transient;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 
 import demo.utils.ExcelDataProvider;
@@ -177,7 +178,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
               
         }
 
-         @Test(enabled = true)
+         //@Test(enabled = true)
         public void testCase05() throws InterruptedException{
                System.out.println("Start TC 05"); 
                driver.get("https://www.youtube.com/");
@@ -212,6 +213,51 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
 
 
               System.out.println("End Of TC 05");
+
+        }
+         @Test(enabled = true)
+        public void testCase06() throws InterruptedException{
+               System.out.println("Start TC 06"); 
+               driver.get("https://www.youtube.com/");
+                Boolean result=Wrappers.isValidatedUrl(driver);
+                Assert.assertTrue(result);
+
+               WebElement option=driver.findElement(By.xpath("(//yt-icon-button[@id='guide-button'])[1]//button"));
+              Wrappers.scrollAndClick(option,driver);
+               Thread.sleep(3000);   
+               
+             WebElement showmoreElement= driver.findElement(By.xpath("(//div[@id='items'])[2]//yt-formatted-string[contains(text(),'Show more')]"));
+             Wrappers.scrollAndClick(showmoreElement, driver);
+             Thread.sleep(2000);
+
+             WebElement newsElement= driver.findElement(By.xpath("(//div[@id='items'])[2]//yt-formatted-string[contains(text(),'News')]"));
+             Wrappers.scrollAndClick(newsElement, driver);
+             Thread.sleep(4000);
+
+             WebElement contentCardsElement=driver.findElement(By.xpath("//div[@id='rich-shelf-header-container' and contains(.,'Latest news posts')]"));
+             WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(10));
+             wait.until(ExpectedConditions.elementToBeClickable(contentCardsElement));
+
+             Thread.sleep((new Random().nextInt(3)+2)*1000);
+             long sumOfVotes = 0;
+             for(int i=1;i<=3;i++)
+                {
+                System.out.println(Wrappers.findElementandPrintWE(driver,By.xpath("//div[@id='header']"),contentCardsElement,i));
+                System.out.println(Wrappers.findElementandPrintWE(driver,By.xpath("//div[@id='body']"),contentCardsElement,i));
+                try {
+                       String res = Wrappers.findElementandPrintWE(driver, By.xpath("//span[@id='vote-count-middle']"), contentCardsElement, i);
+                      sumOfVotes = sumOfVotes+Wrappers.convertToNumericValues(res);
+
+                } catch (Exception e) {
+                        // TODO: handle exception
+                        e.printStackTrace();
+                        System.out.println("Vote not present:"+e.getMessage());
+                }
+                Thread.sleep((new Random().nextInt(3)+2)*1000);
+             }
+             System.out.println("Sum of Votes are:-"+sumOfVotes);
+
+              System.out.println("End Of TC 06");
 
         }
         

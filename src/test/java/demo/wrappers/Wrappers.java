@@ -109,4 +109,37 @@ public class Wrappers {
 
 
     }
+    public static String findElementandPrintWE(WebDriver driver,By locator,WebElement we,int elementNo){
+       WebElement element = we.findElements(locator).get(elementNo);
+        String txt = element.getText();
+        return txt;
+
+    }
+    public static Long convertToNumericValues(String value){
+        //to get last letter
+        value=value.trim().toUpperCase();
+        char lastChar =value.charAt(value.length()-1);
+        int multiplier=1;
+        switch (lastChar) {
+            case 'K':
+                multiplier = 1000;
+                break;
+            case 'M':
+                multiplier = 1000000;    
+                break;
+            case 'B':
+                multiplier=1000000000;  
+                break;  
+            default:
+                if(Character.isDigit(lastChar)){
+                    return Long.parseLong(value);
+                    // break;
+                }
+                throw new IllegalArgumentException("Invalid format: " + value);
+               
+        }
+       String numericPart = value.substring(0, value.length()-1);
+       Double number =Double.parseDouble(numericPart);
+       return (long)(number*multiplier);
+    }
 }
