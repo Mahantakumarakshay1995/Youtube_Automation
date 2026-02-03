@@ -240,7 +240,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
 
              Thread.sleep((new Random().nextInt(3)+2)*1000);
              long sumOfVotes = 0;
-             for(int i=1;i<=3;i++)
+             for(int i = 0; i<3; i++)
                 {
                 System.out.println(Wrappers.findElementandPrintWE(driver,By.xpath("//div[@id='header']"),contentCardsElement,i));
                 System.out.println(Wrappers.findElementandPrintWE(driver,By.xpath("//div[@id='body']"),contentCardsElement,i));
@@ -251,7 +251,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
                 } catch (Exception e) {
                         // TODO: handle exception
                         e.printStackTrace();
-                        System.out.println("Vote not present:"+e.getMessage());
+                        System.out.println("Vote not present:"+i+"+"+e.getMessage());
                 }
                 Thread.sleep((new Random().nextInt(3)+2)*1000);
              }
